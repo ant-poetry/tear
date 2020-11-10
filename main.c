@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "collection/linked_list.h"
 #include "collection/stack.h"
+#include "collection/queue.h"
 
 
 void fi(void *data) {
@@ -42,8 +43,24 @@ void test_stack() {
     stack_release(&stack);
 }
 
+void test_queue() {
+    struct queue_t queue;
+    queue_init(&queue);
+    int a = 0;
+    int b = 1;
+    int c = 2;
+    queue_push(&queue,&a);
+    queue_push(&queue,&b);
+    queue_push(&queue,&c);
+    printf("%d \n",(int)(*(int *)queue_pop(&queue)));
+    printf("%d \n",(int)(*(int *)queue_peek(&queue)));
+    printf("%d \n",(int)(*(int *)queue_pop(&queue)));
+    printf("%d \n",(int)(*(int *)queue_pop(&queue)));
+    queue_release(&queue);
+}
+
 int main() {
-    test_stack();
+    test_queue();
     printf("Hello, World!\n");
     return 0;
 }
