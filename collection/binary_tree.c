@@ -9,7 +9,7 @@
 #include <malloc.h>
 #include <memory.h>
 
-struct binary_tree_node_t * create_node(struct binary_tree_node_t * parent,void * data) {
+struct binary_tree_node_t * create_binary_tree_node(struct binary_tree_node_t * parent,void * data) {
    struct binary_tree_node_t * node =  malloc(sizeof(struct binary_tree_node_t));
    memset(node,0,sizeof(struct binary_tree_node_t));
    node->data = data;
@@ -17,9 +17,9 @@ struct binary_tree_node_t * create_node(struct binary_tree_node_t * parent,void 
    return node;
 }
 
-void release_sub_node(struct binary_tree_node_t *node);
+void release_sub_binary_tree_node(struct binary_tree_node_t *node);
 
-void node_for_each(struct binary_tree_node_t *node, void (*itr)(void *));
+void binary_tree_node_for_each(struct binary_tree_node_t *node, void (*itr)(void *));
 
 struct binary_tree_node_t *node_find(struct binary_tree_node_t *node, void *data) {
     if (!node) {
@@ -40,17 +40,17 @@ void binary_tree_init(struct binary_tree_t *tree) {
 }
 
 void binary_tree_release(struct binary_tree_t *tree) {
-    release_sub_node(tree->root);
+    release_sub_binary_tree_node(tree->root);
     tree->root =NULL;
 }
 
-void release_sub_node(struct binary_tree_node_t *node) {
+void release_sub_binary_tree_node(struct binary_tree_node_t *node) {
     if (!node) {
         return;
     }
     if (node->left || node->right) {
-        release_sub_node(node->left);
-        release_sub_node(node->right);
+        release_sub_binary_tree_node(node->left);
+        release_sub_binary_tree_node(node->right);
     }
     free(node);
 }
@@ -59,9 +59,9 @@ void release_sub_node(struct binary_tree_node_t *node) {
 void node_sub_add(struct binary_tree_node_t *node, void *data) {
     assert(node);
     if (!node->left) {
-        node->left = create_node(node,data);
+        node->left = create_binary_tree_node(node,data);
     } else if(!node->right) {
-        node->right = create_node(node,data);
+        node->right = create_binary_tree_node(node,data);
     } else {
         int l = 0,r = 0;
         struct binary_tree_node_t * tmp = node->left;
@@ -86,7 +86,7 @@ void binary_tree_add(struct binary_tree_t *tree, void *data) {
     assert(tree);
     assert(data);
     if (!tree->root) {
-        tree->root = create_node(NULL,data);
+        tree->root = create_binary_tree_node(NULL,data);
     } else {
         node_sub_add(tree->root,data);
     }
@@ -166,17 +166,17 @@ int binary_tree_find(struct binary_tree_t *tree, void *data) {
 void binary_tree_for_each(struct binary_tree_t *tree, void (*itr)(void *)) {
     assert(tree);
     assert(itr);
-    node_for_each(tree->root,itr);
+    binary_tree_node_for_each(tree->root,itr);
 }
 
-void node_for_each(struct binary_tree_node_t *node, void (*itr)(void *)) {
+void binary_tree_node_for_each(struct binary_tree_node_t *node, void (*itr)(void *)) {
     if (!node) {
         return;
     }
     itr(node->data);
 
-    node_for_each(node->left,itr);
-    node_for_each(node->right,itr);
+    binary_tree_node_for_each(node->left,itr);
+    binary_tree_node_for_each(node->right,itr);
 }
 
 

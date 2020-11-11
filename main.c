@@ -3,12 +3,17 @@
 #include "collection/stack.h"
 #include "collection/queue.h"
 #include "collection/binary_tree.h"
+#include "collection/binary_search_tree.h"
 
 #include <string.h>
 
 
 void fi(void *data) {
     printf("%d \n",(int)(*(int *)data));
+}
+
+int comp(void *d1,void *d2) {
+    return (int)(*(int *)d1) - (int)(*(int *)d2);
 }
 
 void test_linked_list() {
@@ -76,10 +81,22 @@ void test_binary_tree() {
     binary_tree_release(&tree);
 }
 
+void test_binary_search_tree() {
+    struct binary_search_tree_t tree;
+    binary_search_tree_init(&tree,comp);
+    int a = 0;
+    int b = 1;
+    int c = 2;
+    binary_search_tree_add(&tree,&a);
+    binary_search_tree_add(&tree,&b);
+    binary_search_tree_add(&tree,&c);
+    binary_search_tree_release(&tree);
+}
+
 int main() {
     unsigned char * str = "中文";
     int len = strlen(str);
-    test_binary_tree();
+    test_binary_search_tree();
     printf("Hello, World! %d \n",len);
     return 0;
 }
