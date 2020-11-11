@@ -2,6 +2,9 @@
 #include "collection/linked_list.h"
 #include "collection/stack.h"
 #include "collection/queue.h"
+#include "collection/binary_tree.h"
+
+#include <string.h>
 
 
 void fi(void *data) {
@@ -59,9 +62,25 @@ void test_queue() {
     queue_release(&queue);
 }
 
+void test_binary_tree() {
+    struct binary_tree_t tree;
+    binary_tree_init(&tree);
+    int a = 0;
+    int b = 1;
+    int c = 2;
+    binary_tree_add(&tree,&a);
+    binary_tree_add(&tree,&b);
+    binary_tree_add(&tree,&c);
+    binary_tree_remove(&tree,&c);
+    binary_tree_for_each(&tree,&fi);
+    binary_tree_release(&tree);
+}
+
 int main() {
-    test_queue();
-    printf("Hello, World!\n");
+    unsigned char * str = "中文";
+    int len = strlen(str);
+    test_binary_tree();
+    printf("Hello, World! %d \n",len);
     return 0;
 }
 
